@@ -38,7 +38,12 @@ const Login = ({navigation}) => {
               <Label>Password</Label>
               <Input secureTextEntry={true} />
             </Item>
-            <Button full info rounded style={styles.button}>
+            <Button
+              full
+              info
+              rounded
+              style={styles.button}
+              onPress={() => navigation.navigate('Home')}>
               <Text>Login</Text>
             </Button>
           </Form>
@@ -63,6 +68,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   button: {
+    marginTop: 20,
     marginHorizontal: 10,
   },
 });
