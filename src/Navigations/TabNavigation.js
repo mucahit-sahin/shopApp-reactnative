@@ -1,9 +1,9 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import Home from '../Screens/Home';
 import Orders from '../Screens/Orders';
 import Profile from '../Screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import HomeStack from './HomeStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,7 +21,7 @@ const TabNavigation = () => {
       />
       <Tab.Screen
         name="Home"
-        component={Home}
+        component={HomeStack}
         options={{
           tabBarIcon: ({color, size}) => (
             <Icon name="home" size={size} color={color} />
