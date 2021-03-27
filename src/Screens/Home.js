@@ -74,7 +74,7 @@ const Home = ({navigation}) => {
         active={true}
         direction="up"
         containerStyle={{}}
-        style={{backgroundColor: '#5067FF'}}
+        style={{backgroundColor: '#62B1F6'}}
         position="bottomRight"
         onPress={() => navigation.navigate('CreateProduct')}>
         <Icon name="add" />

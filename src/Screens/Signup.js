@@ -5,7 +5,6 @@ import {
   Content,
   Form,
   Header,
-  Icon,
   Input,
   Item,
   Label,
@@ -16,10 +15,9 @@ import {
   View,
 } from 'native-base';
 import React from 'react';
-import {Picker, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 
 const Signup = ({navigation}) => {
-  const [city, setCity] = React.useState('Wallet');
   return (
     <Container>
       <Header style={{backgroundColor: '#62B1F6'}}>

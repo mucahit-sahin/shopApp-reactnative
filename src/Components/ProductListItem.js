@@ -12,13 +12,19 @@ import {
 import {TouchableOpacity} from 'react-native';
 
 const ProductListItem = ({
+  navigation,
   productName,
   productCategory,
   productPrice,
   productImage,
 }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity
+      onPress={() =>
+        navigation.navigate('ProductDetails', {
+          data: {productName, productCategory, productPrice, productImage},
+        })
+      }>
       <Card>
         <CardItem>
           <Left>
