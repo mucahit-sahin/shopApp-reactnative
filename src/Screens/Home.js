@@ -10,15 +10,48 @@ import {
   Text,
 } from 'native-base';
 import React from 'react';
-import {StyleSheet} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+
 import ProductListItem from '../Components/ProductListItem';
+import Loading from '../Components/Loading';
+import {getStorage} from '../Utils/firebase';
+import {useSelector} from 'react-redux';
 
 const Home = ({navigation}) => {
-  const [fabActive, setFabActive] = React.useState(false);
+  const user = useSelector(state => state.user);
+  const [products, setProducts] = React.useState([]);
+  const [loading, setLoading] = React.useState();
+  React.useEffect(() => {
+    if (!user) return;
+    setLoading(true);
+    const subscriber = firestore()
+      .collection('Products')
+      .where('id', '==', user.email)
+      .onSnapshot(querySnapshot => {
+        setProducts([]);
+        querySnapshot.forEach(documentSnapshot => {
+          getStorage('products/' + documentSnapshot.id).then(url => {
+            setProducts(products => [
+              ...products,
+              {
+                ...documentSnapshot.data(),
+                key: documentSnapshot.id,
+                image: url,
+              },
+            ]);
+          });
+        });
+
+        setLoading(false);
+      });
+
+    // Unsubscribe from events when no longer in use
+    return () => subscriber();
+  }, [user]);
   return (
     <Container>
       <Header searchBar style={{backgroundColor: '#62B1F6'}}>
-        <Item>
+        <Item rounded>
           <Icon name="ios-search" />
           <Input placeholder="Search" />
         </Item>
@@ -26,54 +59,22 @@ const Home = ({navigation}) => {
           <Text>Search</Text>
         </Button>
       </Header>
-      <Content>
-        <ProductListItem
-          navigation={navigation}
-          productName="Ekmek"
-          productCategory="Un Mamulleri"
-          productPrice={1.25}
-          productImage="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/05120000/05120000-a957e2-1650x1650.jpg"
-        />
-        <ProductListItem
-          navigation={navigation}
-          productName="Ülker Çikolata"
-          productCategory="Tatlı"
-          productPrice={1.25}
-          productImage="https://cdnprod.mopas.com.tr/sys-master-mopascdncontainer/hca/h46/8870521733150/61162_0_521Wx521H"
-        />
-        <ProductListItem
-          navigation={navigation}
-          productName="Ekmek"
-          productCategory="Un Mamulleri"
-          productPrice={1.25}
-          productImage="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/05120000/05120000-a957e2-1650x1650.jpg"
-        />
-        <ProductListItem
-          navigation={navigation}
-          productName="Ekmek"
-          productCategory="Un Mamulleri"
-          productPrice={1.25}
-          productImage="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/05120000/05120000-a957e2-1650x1650.jpg"
-        />
-        <ProductListItem
-          navigation={navigation}
-          productName="Ekmek"
-          productCategory="Un Mamulleri"
-          productPrice={1.25}
-          productImage="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/05120000/05120000-a957e2-1650x1650.jpg"
-        />
-        <ProductListItem
-          navigation={navigation}
-          productName="Ekmek"
-          productCategory="Un Mamulleri"
-          productPrice={1.25}
-          productImage="https://migros-dali-storage-prod.global.ssl.fastly.net/sanalmarket/product/05120000/05120000-a957e2-1650x1650.jpg"
-        />
-      </Content>
+      {loading ? (
+        <Loading />
+      ) : (
+        <Content>
+          {products.map(product => (
+            <ProductListItem
+              key={product.name}
+              navigation={navigation}
+              product={product}
+            />
+          ))}
+        </Content>
+      )}
       <Fab
         active={true}
         direction="up"
-        containerStyle={{}}
         style={{backgroundColor: '#62B1F6'}}
         position="bottomRight"
         onPress={() => navigation.navigate('CreateProduct')}>

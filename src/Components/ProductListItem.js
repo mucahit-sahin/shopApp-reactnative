@@ -1,28 +1,13 @@
 import React from 'react';
-import {
-  Body,
-  Button,
-  Card,
-  CardItem,
-  Left,
-  Right,
-  Text,
-  Thumbnail,
-} from 'native-base';
+import {Body, Card, CardItem, Left, Right, Text, Thumbnail} from 'native-base';
 import {TouchableOpacity} from 'react-native';
 
-const ProductListItem = ({
-  navigation,
-  productName,
-  productCategory,
-  productPrice,
-  productImage,
-}) => {
+const ProductListItem = ({navigation, product}) => {
   return (
     <TouchableOpacity
       onPress={() =>
         navigation.navigate('ProductDetails', {
-          data: {productName, productCategory, productPrice, productImage},
+          data: product,
         })
       }>
       <Card>
@@ -30,16 +15,16 @@ const ProductListItem = ({
           <Left>
             <Thumbnail
               source={{
-                uri: productImage,
+                uri: product.image,
               }}
             />
           </Left>
           <Body style={{display: 'flex', justifyContent: 'center'}}>
-            <Text>{productName}</Text>
-            <Text note>{productCategory}</Text>
+            <Text>{product.name}</Text>
+            <Text note>{product.category}</Text>
           </Body>
           <Right>
-            <Text>{productPrice} TL</Text>
+            <Text>{product.price} TL</Text>
           </Right>
         </CardItem>
       </Card>
