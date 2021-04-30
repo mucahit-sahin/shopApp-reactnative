@@ -3,7 +3,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from '../Screens/Login';
 import Signup from '../Screens/Signup';
-import TabNavigation from './TabNavigation';
 
 const SignStack = createStackNavigator();
 
@@ -19,11 +18,6 @@ const SignNavigation = () => {
         <SignStack.Screen
           name="Signup"
           component={Signup}
-          options={{headerShown: false}}
-        />
-        <SignStack.Screen
-          name="Home"
-          component={TabNavigation}
           options={{headerShown: false}}
         />
       </SignStack.Navigator>
