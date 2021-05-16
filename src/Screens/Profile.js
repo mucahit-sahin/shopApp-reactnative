@@ -21,7 +21,7 @@ import {useSelector} from 'react-redux';
 import {getFirestore, getStorage} from '../Utils/firebase';
 import Loading from '../Components/Loading';
 
-const Profile = () => {
+const Profile = ({navigation}) => {
   const user = useSelector(state => state.user);
   const [shop, setShop] = React.useState();
   const [image, setImage] = React.useState();
@@ -39,7 +39,7 @@ const Profile = () => {
       <Header style={{backgroundColor: '#62B1F6'}}>
         <Left></Left>
         <Body>
-          <Title>Profile</Title>
+          <Title>Profil</Title>
         </Body>
         <Right>
           <Button transparent onPress={() => auth().signOut()}>
@@ -74,25 +74,32 @@ const Profile = () => {
           </View>
           <View style={{padding: 10}}>
             <Item fixedLabel>
-              <Label>Point</Label>
+              <Label>Puan</Label>
               <Input disabled value="10/10" />
             </Item>
             <Item fixedLabel>
-              <Label>City</Label>
+              <Label>İl</Label>
               <Input disabled value={shop?.city} />
             </Item>
             <Item fixedLabel>
-              <Label>Town</Label>
+              <Label>İlçe</Label>
               <Input disabled value={shop?.town} />
             </Item>
             <Item fixedLabel>
-              <Label>District</Label>
-              <Input disabled value={shop?.town} />
+              <Label>Mahalle</Label>
+              <Input disabled value={shop?.district} />
             </Item>
             <Item fixedLabel>
-              <Label>Address</Label>
+              <Label>Adres</Label>
               <Input disabled value={shop?.address} />
             </Item>
+            <Button
+              full
+              rounded
+              info
+              onPress={() => navigation.navigate('Regions', {shop})}>
+              <Text>Hizmet Bölgesini Güncelle</Text>
+            </Button>
           </View>
         </Content>
       )}

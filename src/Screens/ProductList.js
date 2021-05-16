@@ -13,9 +13,10 @@ import {
   Item,
   Text,
 } from 'native-base';
-import {View} from 'react-native';
+import {Image} from 'react-native';
 
-const ProductList = ({navigation}) => {
+const ProductList = ({navigation, route}) => {
+  const {products} = route.params;
   return (
     <Container>
       <Header style={{backgroundColor: '#62B1F6'}}>
@@ -25,20 +26,29 @@ const ProductList = ({navigation}) => {
           </Button>
         </Left>
         <Body>
-          <Title>Product List</Title>
+          <Title>Ürün Listesi</Title>
         </Body>
         <Right></Right>
       </Header>
       <Content>
-        <View rounded>
-          <Item>
-            <Icon name="ios-search" />
-            <Input placeholder="Search" />
+        {products.map(product => (
+          <Item style={{padding: 10}}>
+            <Left>
+              <Image
+                source={{
+                  uri: product.image,
+                }}
+                style={{width: 50, height: 50}}
+              />
+            </Left>
+            <Body>
+              <Text>{product.name}</Text>
+            </Body>
+            <Right>
+              <Text>{product.price + 'x' + product.quantity}</Text>
+            </Right>
           </Item>
-          <Button transparent>
-            <Text>Search</Text>
-          </Button>
-        </View>
+        ))}
       </Content>
     </Container>
   );

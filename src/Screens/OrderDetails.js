@@ -15,8 +15,35 @@ import {
   Button,
   Icon,
 } from 'native-base';
+import {Alert} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import OrderStatus from '../Components/OrderStatus';
 
-const OrderDetails = ({navigation}) => {
+const OrderDetails = ({navigation, route}) => {
+  const {order} = route.params;
+  const nextOrderStatus = () => {
+    Alert.alert('Uyari', 'Emin misin?', [
+      {
+        text: 'Cancel',
+        onPress: () => console.log('Cancel Pressed'),
+        style: 'cancel',
+      },
+      {
+        text: 'OK',
+        onPress: () => {
+          firestore()
+            .collection('Orders')
+            .doc(order.orderId)
+            .update({
+              orderStatus: order.orderStatus + 1,
+            })
+            .then(() => {
+              navigation.goBack();
+            });
+        },
+      },
+    ]);
+  };
   return (
     <Container>
       <Header style={{backgroundColor: '#62B1F6'}}>
@@ -26,33 +53,34 @@ const OrderDetails = ({navigation}) => {
           </Button>
         </Left>
         <Body>
-          <Title>Order Details</Title>
+          <Title>Sipariş Detayları</Title>
         </Body>
         <Right></Right>
       </Header>
       <Content>
         <View>
           <Item fixedLabel style={{padding: 5}}>
-            <Label>Display Name</Label>
-            <Input disabled value="Mucahit Şahin" />
+            <Label>Adı ve Soyadı</Label>
+            <Input disabled value={order.fullName} />
           </Item>
           <Item fixedLabel style={{padding: 5}}>
-            <Label>City</Label>
-            <Input disabled value="İstanbul" />
+            <Label>İl</Label>
+            <Input disabled value={order.city} />
           </Item>
           <Item fixedLabel style={{padding: 5}}>
-            <Label>Town</Label>
-            <Input disabled value="Arnavutköy" />
+            <Label>İlçe</Label>
+            <Input disabled value={order.town} />
           </Item>
           <Item fixedLabel style={{padding: 5}}>
-            <Label>Address</Label>
+            <Label>Adres</Label>
             <Input
               disabled
-              value="Cemre mahallesi, Çimen sokak, No:5, D:2"
+              value={order.district + ' ' + order.address}
               multiline
-              numberOfLines={4}
+              numberOfLines={3}
             />
           </Item>
+          <OrderStatus position={order.orderStatus - 1} />
         </View>
       </Content>
       <View style={{marginBottom: 10}}>
@@ -60,12 +88,20 @@ const OrderDetails = ({navigation}) => {
           full
           rounded
           style={{backgroundColor: '#62B1F6', margin: 5}}
-          onPress={() => navigation.navigate('ProductList')}>
-          <Text>Product List</Text>
+          onPress={() =>
+            navigation.navigate('ProductList', {products: order.cart})
+          }>
+          <Text>Ürün Listesi</Text>
         </Button>
-        <Button full rounded style={{backgroundColor: '#62B1F6', margin: 5}}>
-          <Text>Update Order Status</Text>
-        </Button>
+        {order.orderStatus < 4 && (
+          <Button
+            full
+            rounded
+            style={{backgroundColor: '#62B1F6', margin: 5}}
+            onPress={() => nextOrderStatus()}>
+            <Text>Sipariş Durumunu Degiştir</Text>
+          </Button>
+        )}
       </View>
     </Container>
   );

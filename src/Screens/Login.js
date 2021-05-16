@@ -65,7 +65,7 @@ const Login = ({navigation}) => {
               />
             </Item>
             <Item floatingLabel last>
-              <Label>Password</Label>
+              <Label>Şifre</Label>
               <Input
                 secureTextEntry={true}
                 value={password}

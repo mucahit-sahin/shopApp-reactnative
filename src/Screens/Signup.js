@@ -70,7 +70,7 @@ const Signup = ({navigation}) => {
               <Input value={email} onChangeText={text => setEmail(text)} />
             </Item>
             <Item floatingLabel last>
-              <Label>Password</Label>
+              <Label>Şifre</Label>
               <Input
                 secureTextEntry={true}
                 value={password}
@@ -78,7 +78,7 @@ const Signup = ({navigation}) => {
               />
             </Item>
             <Item floatingLabel last>
-              <Label>Repeat Password</Label>
+              <Label>Tekrar Şifre</Label>
               <Input
                 secureTextEntry={true}
                 value={repeatPassword}

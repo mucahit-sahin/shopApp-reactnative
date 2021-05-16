@@ -1,10 +1,11 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import React from 'react';
-import Profile from '../Screens/Profile';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {NavigationContainer} from '@react-navigation/native';
+
 import HomeStack from './HomeStack';
 import OrderStack from './OrderStack';
-import {NavigationContainer} from '@react-navigation/native';
+import ProfileStack from './ProfileStack';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ const TabNavigation = () => {
         />
         <Tab.Screen
           name="Profile"
-          component={Profile}
+          component={ProfileStack}
           options={{
             tabBarIcon: ({color, size}) => (
               <Icon name="user" size={size} color={color} />

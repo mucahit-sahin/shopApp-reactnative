@@ -73,9 +73,7 @@ const CreateShop = ({user}) => {
       .getDownloadURL()
       .then(url => {
         //from url you can fetched the uploaded image easily
-        console.log('de: ' + url);
         setDownloadUrl(url);
-        console.log('de2: ' + downloadUrl);
         firestore()
           .collection('Shops')
           .doc(email)
@@ -198,7 +196,7 @@ const CreateShop = ({user}) => {
       <Header style={{backgroundColor: '#62B1F6'}}>
         <Left />
         <Body>
-          <Title>Complete Profile</Title>
+          <Title>Profili Tamamla</Title>
         </Body>
         <Right />
       </Header>
@@ -227,19 +225,19 @@ const CreateShop = ({user}) => {
             />
           </Item>
           <Item last>
-            <Label>Full Name</Label>
+            <Label>Ad ve Soyad</Label>
             <Input value={fullName} onChangeText={text => setFullName(text)} />
           </Item>
           <Item last>
-            <Label>Phone Number</Label>
+            <Label>Tel No</Label>
             <Input value={number} onChangeText={text => setNumber(text)} />
           </Item>
           <Item last>
-            <Label>Shop Name</Label>
+            <Label>Market Adı</Label>
             <Input value={shopName} onChangeText={text => setShopName(text)} />
           </Item>
           <Item picker last>
-            <Label>City</Label>
+            <Label>İl</Label>
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
@@ -258,7 +256,7 @@ const CreateShop = ({user}) => {
             </Picker>
           </Item>
           <Item picker last>
-            <Label>Town</Label>
+            <Label>İlçe</Label>
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
@@ -277,7 +275,7 @@ const CreateShop = ({user}) => {
             </Picker>
           </Item>
           <Item picker last>
-            <Label>District</Label>
+            <Label>Mahalle</Label>
             <Picker
               mode="dropdown"
               iosIcon={<Icon name="arrow-down" />}
@@ -297,7 +295,7 @@ const CreateShop = ({user}) => {
           </Item>
 
           <Item last>
-            <Label>Address</Label>
+            <Label>Adres</Label>
             <Input
               value={address}
               onChangeText={text => setAddress(text)}
@@ -333,7 +331,7 @@ const CreateShop = ({user}) => {
           margin: 10,
         }}
         onPress={() => create()}>
-        <Text>Create</Text>
+        <Text>Oluştur</Text>
       </Button>
     </Container>
   );

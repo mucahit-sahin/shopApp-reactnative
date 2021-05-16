@@ -38,7 +38,7 @@ const CreateProduct = ({navigation}) => {
   const [productImage, setProductImage] = React.useState();
   const [product, setProduct] = React.useState({
     name: '',
-    category: '',
+    category: categories[0],
     price: 0,
     stock: 0,
   });
@@ -97,10 +97,10 @@ const CreateProduct = ({navigation}) => {
   };
   const addProduct = () => {
     if (
-      product.name.trim != '' &&
+      product.name.trim() != '' &&
       product.price != 0 &&
       product.stock != 0 &&
-      product.category.trim != '' &&
+      product.category.trim() != '' &&
       productImage
     ) {
       setLoading(true);
@@ -171,18 +171,18 @@ const CreateProduct = ({navigation}) => {
                 />
               </Item>
               <Item inlineLabel last>
-                <Label>Name</Label>
+                <Label>Ad</Label>
                 <Input
                   value={product.name}
                   onChangeText={text => setProduct({...product, name: text})}
                 />
               </Item>
               <Item picker last>
-                <Label>Category</Label>
+                <Label>Kategori</Label>
                 <Picker
                   mode="dropdown"
                   iosIcon={<Icon name="arrow-down" />}
-                  placeholder="Select City"
+                  placeholder="Select Category"
                   placeholderStyle={{color: '#bfc6ea'}}
                   placeholderIconColor="#007aff"
                   onValueChange={text =>
@@ -198,7 +198,7 @@ const CreateProduct = ({navigation}) => {
                 </Picker>
               </Item>
               <Item inlineLabel last>
-                <Label>Price</Label>
+                <Label>Fiyat</Label>
                 <Input
                   value={product.price}
                   onChangeText={text => setProduct({...product, price: text})}
@@ -206,7 +206,7 @@ const CreateProduct = ({navigation}) => {
                 />
               </Item>
               <Item inlineLabel last>
-                <Label>Stock</Label>
+                <Label>Stok</Label>
                 <Input
                   value={product.stock}
                   onChangeText={text => setProduct({...product, stock: text})}

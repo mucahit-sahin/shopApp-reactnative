@@ -91,7 +91,7 @@ const ProductDetails = ({navigation, route}) => {
           </CardItem>
           <CardItem>
             <Left>
-              <Text>Category</Text>
+              <Text>Kategori</Text>
             </Left>
             <Body>
               <Text>{data.category}</Text>
@@ -100,17 +100,25 @@ const ProductDetails = ({navigation, route}) => {
           <CardItem>
             <Body>
               <Item inlineLabel>
-                <Label>Price</Label>
-                <Input value={price} onChangeText={text => setPrice(text)} />
-                <Label>Stock</Label>
-                <Input value={stock} onChangeText={text => setStock(text)} />
+                <Label>Fiyat</Label>
+                <Input
+                  value={price}
+                  keyboardType="number-pad"
+                  onChangeText={text => setPrice(text)}
+                />
+                <Label>Stok</Label>
+                <Input
+                  value={stock}
+                  keyboardType="number-pad"
+                  onChangeText={text => setStock(text)}
+                />
               </Item>
             </Body>
           </CardItem>
         </Card>
       </Content>
       <Button full rounded info style={{margin: 10}} onPress={() => update()}>
-        <Text>Update</Text>
+        <Text>Güncelle</Text>
       </Button>
     </Container>
   );

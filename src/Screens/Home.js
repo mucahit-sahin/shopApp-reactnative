@@ -13,21 +13,25 @@ import React from 'react';
 import firestore from '@react-native-firebase/firestore';
 
 import ProductListItem from '../Components/ProductListItem';
-import Loading from '../Components/Loading';
 import {getStorage} from '../Utils/firebase';
 import {useSelector} from 'react-redux';
+import {RefreshControl} from 'react-native';
 
 const Home = ({navigation}) => {
   const user = useSelector(state => state.user);
   const [products, setProducts] = React.useState([]);
-  const [loading, setLoading] = React.useState();
+  const [filterList, setFilterList] = React.useState([]);
+  const [refreshing, setRefreshing] = React.useState(false);
   React.useEffect(() => {
-    if (!user) return;
-    setLoading(true);
-    const subscriber = firestore()
+    onRefresh();
+  }, []);
+  const onRefresh = () => {
+    setRefreshing(true);
+    firestore()
       .collection('Products')
       .where('id', '==', user.email)
-      .onSnapshot(querySnapshot => {
+      .get()
+      .then(querySnapshot => {
         setProducts([]);
         querySnapshot.forEach(documentSnapshot => {
           getStorage('products/' + documentSnapshot.id).then(url => {
@@ -40,38 +44,41 @@ const Home = ({navigation}) => {
               },
             ]);
           });
+          setFilterList(products);
+          setRefreshing(false);
         });
-
-        setLoading(false);
       });
-
-    // Unsubscribe from events when no longer in use
-    return () => subscriber();
-  }, [user]);
+  };
+  const filterProducts = text => {
+    let pattern = new RegExp(text);
+    let filterList = products.filter(function (repo) {
+      return repo.name.match(pattern);
+    });
+    setFilterList(filterList);
+  };
   return (
     <Container>
       <Header searchBar style={{backgroundColor: '#62B1F6'}}>
         <Item rounded>
           <Icon name="ios-search" />
-          <Input placeholder="Search" />
+          <Input
+            placeholder="Ara"
+            onChangeText={text => filterProducts(text)}
+          />
         </Item>
-        <Button transparent>
-          <Text>Search</Text>
-        </Button>
       </Header>
-      {loading ? (
-        <Loading />
-      ) : (
-        <Content>
-          {products.map(product => (
-            <ProductListItem
-              key={product.name}
-              navigation={navigation}
-              product={product}
-            />
-          ))}
-        </Content>
-      )}
+      <Content
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        {filterList.map(product => (
+          <ProductListItem
+            key={product.key}
+            navigation={navigation}
+            product={product}
+          />
+        ))}
+      </Content>
       <Fab
         active={true}
         direction="up"
