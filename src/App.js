@@ -36,11 +36,11 @@ const App = () => {
     .doc(user?.email)
     .onSnapshot(documentSnapshot => {
       setUserDocument(documentSnapshot.data());
+      if (!userDocument) {
+        return <CreateShop user={user} />;
+      }
     });
-  if (userDocument) {
-    return <TabNavigation user={user} />;
-  }
-  return <CreateShop user={user} />;
+  return <TabNavigation user={user} />;
 };
 
 export default App;
